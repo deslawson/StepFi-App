@@ -1,0 +1,32 @@
+export const colors = {
+  background: '#080F1A',
+  surface: '#0D1B2A',
+  elevated: '#132238',
+  subtle: '#1A2E45',
+  border: '#1E3A52',
+  borderSubtle: '#2A4A66',
+  textPrimary: '#F0F4F8',
+  textSecondary: '#A8BCCF',
+  textMuted: '#5A7A94',
+  textFaint: '#3A5570',
+  brandBlue: '#2563EB',
+  brandGreen: '#22C55E',
+  brandBlueDim: 'rgba(37, 99, 235, 0.15)',
+  brandGreenDim: 'rgba(34, 197, 94, 0.15)',
+  cta: '#22C55E',
+  ctaText: '#080F1A',
+  error: '#EF4444',
+  errorDim: 'rgba(239, 68, 68, 0.15)',
+  warning: '#F59E0B',
+  warningDim: 'rgba(245, 158, 11, 0.15)',
+  success: '#22C55E',
+  successDim: 'rgba(34, 197, 94, 0.15)',
+  tier: {
+    gold: '#F59E0B',
+    silver: '#94A3B8',
+    bronze: '#D97706',
+    starter: '#5A7A94',
+  },
+} as const;
+
+export type Colors = typeof colors;

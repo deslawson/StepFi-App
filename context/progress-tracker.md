@@ -6,81 +6,92 @@ Update this file after every completed screen, component, hook, or architectural
 
 ## Current Phase
 
-**Phase 0 — Foundation Setup**
+**Phase 1 — Shared Components & Design System**
 
 ## Current Goal
 
-Build StepFi-App's design system and UI foundation from scratch. Set up Expo Router navigation, Zustand stores, Axios service layer, and WalletConnect v2 integration before building any screens.
+Build all shared components from scratch using StepFi's dark theme design system.
 
 ---
 
 ## Completed
 
 ### Project Setup
-- `app.json` — name updated to StepFi
-- `package.json` — name updated to stepfi-app
+- `app.json` — name updated to StepFi (scheme `stepfi`, expo-router + expo-secure-store plugins, web bundler `metro` + output `single`, typed routes enabled, splash/adaptive-icon background `#080F1A`)
+- `package.json` — name updated to stepfi-app; entry switched to `expo-router/entry`; added `axios`, `zustand`, `expo-secure-store`
 - All source files cleaned — zero external project references
 - README.md fully written as StepFi-App
 - NativeWind configured (tailwind.config.js, metro.config.js)
 - Lucide React Native installed as the icon library
+- `.env.example` with `EXPO_PUBLIC_API_URL`
+
+### Foundation Constants & Types
+- `constants/colors.ts` — full StepFi dark theme tokens (background/surface/elevated/subtle/borders, text scale, brand blue/green w/ dim variants, cta, error/warning/success w/ dim variants, tier sub-object)
+- `constants/config.ts` — `API_BASE_URL` (env-driven), `APP_NAME`, `APP_TAGLINE`
+- `constants/theme.ts` — `spacing`, `borderRadius`, `fontSize` scales
+- `types/api.types.ts` — `ApiResponse<T>`, `ApiError`, `PaginatedResponse<T>`
+- `types/loan.types.ts` — `LoanStatus`, `LoanType`, `Installment`, `Loan`
+- `types/wallet.types.ts` — `WalletSession`, `SignXdrResult`, `WalletConnectionStatus`
+- `types/user.types.ts` — `LearnerProfile` (added to satisfy `user.store`; mirrors API `learner_profiles` shape)
+
+### Service Layer
+- `services/api.ts` — Axios instance, bearer-token request interceptor, single-flight 401 refresh-and-retry interceptor, redirect to `/(auth)/sign-in` on refresh failure
+- `services/auth.service.ts` — `getNonce`, `verify`, `refresh`
+- `services/reputation.service.ts` — `getScore(wallet)`
+- `services/loans.service.ts` — `getMyLoans`, `getLoanById`, `getAvailableCredit`, `createLoan`, `repayInstallment`
+
+### Zustand Stores
+- `stores/auth.store.ts` — tokens + wallet address persisted via Expo SecureStore, `hydrate()` invoked from root layout
+- `stores/wallet.store.ts` — `isConnected`, `publicKey`, `status` (`WalletConnectionStatus`), `isSigning`
+- `stores/user.store.ts` — `profile`, `reputation`, `isLoading`
+- `stores/loans.store.ts` — `loans`, `selectedLoan`, `isLoading`
+
+### Navigation (Expo Router)
+- `app/_layout.tsx` — root Stack, hydrates auth on mount, redirects unauth → `/(auth)/sign-in`, auth-in-auth-group → `/(tabs)/pay`
+- `app/(auth)/_layout.tsx` — Stack
+- `app/(auth)/sign-in.tsx`, `app/(auth)/register.tsx` — placeholders
+- `app/(tabs)/_layout.tsx` — bottom Tabs (pay/invest/settings) with Lucide icons (`CreditCard`, `TrendingUp`, `Settings`), brand-green active tint
+- `app/(tabs)/pay.tsx`, `app/(tabs)/invest.tsx`, `app/(tabs)/settings.tsx` — placeholders
+
+### Verification
+- `npx expo export --platform web` — succeeded (2394 modules bundled, exit 0)
 
 ---
 
 ## In Progress
 
-- None currently. Design system and foundation setup is the next step.
+- None currently. Shared components are next.
 
 ---
 
 ## Next Up (In Order)
 
-### Foundation
-1. constants/colors.ts — StepFi dark theme color token system
-2. constants/config.ts — API base URL, WalletConnect project ID
-3. constants/theme.ts — Border radius, spacing, font size constants
-4. types/ — api.types.ts, loan.types.ts, wallet.types.ts
-
-### Service & State Layer
-5. services/api.ts — Axios instance with JWT interceptor and refresh logic
-6. services/auth.service.ts — Auth API calls
-7. services/loans.service.ts — Loan API calls
-8. services/reputation.service.ts — Reputation API calls
-9. stores/auth.store.ts — JWT tokens, wallet address, auth status
-10. stores/wallet.store.ts — WalletConnect session and signing
-11. stores/user.store.ts — Learner profile and reputation
-12. stores/loans.store.ts — Active loans and installment state
-
-### Navigation
-13. app/_layout.tsx — Root layout with auth guard
-14. app/(auth)/_layout.tsx — Auth stack layout
-15. app/(tabs)/_layout.tsx — Bottom tab navigator
-
 ### Shared Components (Design System — built from scratch)
-16. components/shared/Button.tsx
-17. components/shared/Card.tsx
-18. components/shared/EmptyState.tsx
-19. components/shared/Loader.tsx
-20. components/shared/Input.tsx
-21. components/shared/ReputationBadge.tsx
-22. components/shared/InstallmentRow.tsx
-23. components/shared/NotificationsPanel.tsx
-24. components/shared/ConfirmTransaction.tsx
+1. components/shared/Button.tsx
+2. components/shared/Card.tsx
+3. components/shared/EmptyState.tsx
+4. components/shared/Loader.tsx
+5. components/shared/Input.tsx
+6. components/shared/ReputationBadge.tsx
+7. components/shared/InstallmentRow.tsx
+8. components/shared/NotificationsPanel.tsx
+9. components/shared/ConfirmTransaction.tsx
 
 ### Screens (all redesigned from scratch)
-25. app/(auth)/sign-in.tsx
-26. app/(auth)/register.tsx
-27. app/(tabs)/pay.tsx
-28. app/(tabs)/invest.tsx
-29. app/(tabs)/settings.tsx
-30. app/loan/[id].tsx
-31. app/loan/apply.tsx
+10. app/(auth)/sign-in.tsx
+11. app/(auth)/register.tsx
+12. app/(tabs)/pay.tsx
+13. app/(tabs)/invest.tsx
+14. app/(tabs)/settings.tsx
+15. app/loan/[id].tsx
+16. app/loan/apply.tsx
 
 ### Wallet Integration
-32. WalletConnect v2 — Lobstr and xBull deep link integration
+17. WalletConnect v2 — Lobstr and xBull deep link integration
 
 ### Deployment
-33. Expo preview build (EAS)
-34. Netlify web build
+18. Expo preview build (EAS)
+19. Netlify web build
 
 ---
 
@@ -148,3 +159,4 @@ Build StepFi-App's design system and UI foundation from scratch. Set up Expo Rou
 - Every screen must handle loading, error, and empty states
 - Use the frontend-design skill for all screen and component work
 - Run npx expo start and verify before committing any UI changes
+- `App.tsx` is legacy (entry switched to `expo-router/entry`) — safe to delete

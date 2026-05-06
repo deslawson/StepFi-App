@@ -1,18 +1,22 @@
 {
   "expo": {
-    "name": "my-expo-app",
-    "slug": "my-expo-app",
+    "name": "stepfi-app",
+    "slug": "stepfi-app",
+    "scheme": "stepfi",
     "version": "1.0.0",
 
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "single"
     },
 
     "experiments": {
-      "tsconfigPaths": true
+      "tsconfigPaths": true,
+      "typedRoutes": true
     },
 
-    "plugins": [],
+    "plugins": ["expo-router", "expo-secure-store"],
 
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,7 +26,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#080F1A"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -31,7 +35,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#080F1A"
       },
       "softwareKeyboardLayoutMode": "pan"
     }
